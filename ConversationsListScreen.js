@@ -13,7 +13,9 @@ export class ConversationsListScreen extends Component<Props, State> {
 
     _getMessages(){
         this.setState(state => {
-            const conversations = state.conversations.concat([{conversation: new Conversation('1', 'konfa1')}, {conversation: new Conversation('2', 'konfa2')}]);
+            const conversations = state.conversations.concat([
+                {conversation: new Conversation('1', 'konwersacja pierwsza')},
+                {conversation: new Conversation('2', 'konwersacja druga')}]);
             return {
                 conversations
             };
@@ -26,15 +28,12 @@ export class ConversationsListScreen extends Component<Props, State> {
             const userId = await AsyncStorage.getItem('userId');
             if (userId !== null && token !== null) {
                 // We have data!!
+                // fetch('https://127.0.0.1:8080/getConversations/userId');
                 return {userId, token};
             }
         } catch (error) {
             // Error retrieving data
         }
-    };
-
-    _onPressedItem = (item, index) => {
-        console.log(item);
     };
 
     constructor(props: P, context: any) {
@@ -62,7 +61,7 @@ export class ConversationsListScreen extends Component<Props, State> {
                             onPress={() => {
                                 this.props.navigation.navigate('ConversationScreen', {conversationId: item.conversation.conversationId})
                             }}
-                            subtitle={item.conversation.name}
+                            title={item.conversation.name}
                         />}
                     keyExtractor={(item, index) => item.conversation.conversationId}
                 />

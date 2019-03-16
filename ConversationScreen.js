@@ -13,7 +13,14 @@ export class ConversationScreen extends Component<Props, State> {
 
     getMessages(){
         this.setState(state => {
-            const messages = state.messages.concat([{message: new Message('1', '1', 'elo')}, {message: new Message('2', '1', 'siema')}]);
+            const messages = state.messages.concat([
+                {message: new Message('1', '1', 'Cześć')},
+                {message: new Message('2', '2', 'Witam')},
+                {message: new Message('3', '1', 'Jak Sie Masz?')},
+                {message: new Message('4', '2', 'Bardzo dobrz, a ty?')},
+                {message: new Message('5', '1', 'wybitnie')},
+                {message: new Message('6', '2', 'To świetnie')},
+                {message: new Message('7', '1', 'zgadza sie')}]);
             return {
                 messages
             };
@@ -53,10 +60,17 @@ export class ConversationScreen extends Component<Props, State> {
             <View>
                 <FlatList
                     data={this.state.messages}
-                    renderItem={({item}) =>
-                        <View>
-                            <Text>{item.message.text}</Text>
-                        </View>
+                    renderItem={({item}) => {
+                        if (item.message.authorId!='1') {
+                            return(<View>
+                                <Text style={{textAlign: 'right'}}>{item.message.text}</Text>
+                            </View>)
+                        }else{
+                            return(<View>
+                                <Text>{item.message.text}</Text>
+                            </View>)
+                        }
+                    }
                     }
                     keyExtractor={(item, index) => item.message.messageId}
                 />

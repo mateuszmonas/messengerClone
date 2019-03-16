@@ -34,7 +34,7 @@ export class LoginScreen extends Component<Props, State>{
                 <TextInput
                     onChangeText={(text) => this.setState({loginText: {text}})}
                 />
-                <TextInput
+                <TextInput secureTextEntry={true}
                     onChangeText={(text) => this.setState({passwordText: {text}})}
                 />
                 <Button title='LOGIN'
