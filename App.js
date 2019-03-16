@@ -11,25 +11,30 @@ import {Platform, StyleSheet, Text, View, FlatList, TextInput} from 'react-nativ
 import {Message} from "./model/Message";
 import {Conversation} from "./Conversation";
 import {Login} from "./Login";
+import {createStackNavigator, createAppContainer} from 'react-navigation';
 
-type Props = {};
-
-type State = {
-  data: [];
-};
-
-export default class App extends Component<Props, State> {
-    render(): React.ReactNode {
-        return <Login />;
-    }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    color: "red"
-  },
+export const MainNavigator = createStackNavigator({
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Conversation: {screen: Conversation,
+        navigationOptions: {
+            header: null
+        }},
+}, {
+    initialRouteName: 'Login'
 });
+
+
+
+// export default class App extends Component<Props> {
+//     render(): React.ReactNode {
+//         return <MainNavigator />;
+//     }
+// }
+
+const App = createAppContainer(MainNavigator);
+export default App;
