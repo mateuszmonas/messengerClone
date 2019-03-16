@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, FlatList, TextInput} from 'react-native';
+import {Message} from "./model/Message";
 
 type Props = {
   age: number;
@@ -25,33 +26,31 @@ export default class App extends Component<Props, State> {
     super(props, context);
 
     this.state = {
-      data: [{username: 'dsa', id: '1'}, {username: 'dsa', id: '2'}]
+        data: [{message: new Message('1', '1', 'elo')}, {message: new Message('2', '1', 'siema')}]
     }
   }
 
-  render() {                console.log('asdsda');
-
+  render() {
       return (
           <View>
               <FlatList
                   data={this.state.data}
                   renderItem={({item}) =>
                       <View>
-                          <Text>{item.username}</Text>
+                          <Text>{item.message.text}</Text>
                       </View>
                   }
-                  keyExtractor={(item, index) => item.id}
+                  keyExtractor={(item, index) => item.message.messageId}
               />
               <TextInput
+                  ref={input => { this.textInput = input }}
                   onSubmitEditing={(event) => {
                       const text = event.nativeEvent.text;
                       console.log(text);
+                      this.textInput.clear();
                       this.setState(state => {
                           let id = state.data.slice(-1)[0].id;
-                          const data = state.data.concat([{
-                              username: text,
-                              id: (+id + 1).toString()
-                          }]);
+                          const data = state.data.concat([{message: new Message((+id + 1).toString(), '1', text)}]);
                           return {
                               data
                           };
