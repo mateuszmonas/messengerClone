@@ -7,34 +7,29 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList, TextInput} from 'react-native';
-import {Message} from "./model/Message";
-import {Conversation} from "./Conversation";
-import {Login} from "./Login";
+import {ConversationScreen} from "./ConversationScreen";
+import {LoginScreen} from "./LoginScreen";
 import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {ConversationsListScreen} from "./ConversationsListScreen";
 
 export const MainNavigator = createStackNavigator({
-    Login: {
-        screen: Login,
+    LoginScreen: {
+        screen: LoginScreen,
         navigationOptions: {
             header: null
         }
     },
-    Conversation: {screen: Conversation,
+    ConversationScreen: {screen: ConversationScreen,
         navigationOptions: {
             header: null
         }},
+    ConversationsListScreen: {screen: ConversationsListScreen,
+        navigationOptions: {
+            header: null
+        }}
 }, {
-    initialRouteName: 'Login'
+    initialRouteName: 'LoginScreen'
 });
-
-
-
-// export default class App extends Component<Props> {
-//     render(): React.ReactNode {
-//         return <MainNavigator />;
-//     }
-// }
 
 const App = createAppContainer(MainNavigator);
 export default App;

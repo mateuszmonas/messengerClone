@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {TextInput, Button, View} from 'react-native';
+import {AsyncStorage, TextInput, Button, View} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 type State = {
@@ -7,7 +7,7 @@ type State = {
     passwordText: String;
 }
 
-export class Login extends Component<Props, State>{
+export class LoginScreen extends Component<Props, State>{
 
 
     constructor(props: P, context: any) {
@@ -16,12 +16,16 @@ export class Login extends Component<Props, State>{
             loginText: "",
             passwordText: ""
         }
-    }
+    };
 
-    loginRequest(){
-        console.log(this.state.loginText);
-        console.log(this.state.passwordText);
-        this.props.navigation.navigate('Conversation')
+    async loginRequest(){
+        try {
+            await AsyncStorage.setItem('token', '1928u498012uuer981u2hd');
+            await AsyncStorage.setItem('userId', '132');
+        } catch (error) {
+            // Error saving data
+        }
+        this.props.navigation.navigate('ConversationsListScreen')
     };
 
     render(): React.ReactNode {
