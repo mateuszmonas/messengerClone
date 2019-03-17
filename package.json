@@ -12,7 +12,8 @@
     "react-native-cookies": "^3.3.0",
     "react-native-elements": "^1.1.0",
     "react-native-gesture-handler": "^1.1.0",
-    "react-navigation": "^3.4.0"
+    "react-navigation": "^3.4.0",
+    "eventemitter3": "latest"
   },
   "devDependencies": {
     "@babel/core": "7.3.4",

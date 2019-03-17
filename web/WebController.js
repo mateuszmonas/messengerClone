@@ -1,9 +1,24 @@
 import {Conversation} from "../model/Conversation";
 import {Message} from "../model/Message";
+import {EventEmitter} from "eventemitter3";
+
+export interface ListenerFn {
+    (...args: Array<any>): void;
+}
 
 class WebController{
 
-    ws = new WebSocket('ws://10.0.2.2:8080');
+    constructor() {
+        this.ee = new EventEmitter();
+        this.ws = new WebSocket('ws://10.0.2.2:8080');
+        this.ws.onmessage = (msg) => {
+            this.ee.emit('newMessageEvent', msg.data);
+        };
+    }
+
+    async subscribeToNewMessageEvent(fn: ListenerFn) {
+        this.ee.on('newMessageEvent', fn);
+    }
 
     async getConversationsList(userId: string) {
         try{

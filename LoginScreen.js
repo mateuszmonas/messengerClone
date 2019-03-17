@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {AsyncStorage, TextInput, Button, View} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import WebController from "./web/WebController";
+import {EventEmitter} from "eventemitter3";
 
 type State = {
     loginText: String;

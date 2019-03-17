@@ -38,10 +38,12 @@ export class ConversationScreen extends Component<Props, State> {
 
     _postMessage(text: String){
         let id = this.state.messages.slice(-1)[0].message.messageId;
-        WebController.postMessage(new Message((+id + 1).toString(), '1', text)).then();
+        WebController.postMessage(new Message((+id + 1).toString(), '1', text)).done();
+    }
+
+    _addMessagesToState(message: Message){
         this.setState(state => {
-            console.log(id);
-            const messages = state.messages.concat([{message: new Message((+id + 1).toString(), '1', text)}]);
+            const messages = state.messages.concat([{message: message}]);
             return {
                 messages
             };
@@ -66,6 +68,8 @@ export class ConversationScreen extends Component<Props, State> {
                 token: data.token
             })
         ).then(this._getMessages(this.state.conversationId));
+
+        WebController.subscribeToNewMessageEvent((msg: String) => {this._addMessagesToState(JSON.parse(msg))}).done();
     }
 
     render() {
