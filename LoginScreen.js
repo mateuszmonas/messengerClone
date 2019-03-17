@@ -19,7 +19,7 @@ export class LoginScreen extends Component<Props, State>{
         }
     };
 
-    async _onLoginClick(){
+    _onLoginClick(){
         webController.loginRequest(this.state.loginText, this.state.passwordText)
             .then((response) => {
                 AsyncStorage.setItem('token', response.token);
@@ -27,6 +27,11 @@ export class LoginScreen extends Component<Props, State>{
                 this.props.navigation.navigate('ConversationsListScreen')
             });
     };
+
+    _onRegisterClick(){
+        webController.registerRequest(this.state.loginText, this.state.passwordText)
+            .then();
+    }
 
     render(): React.ReactNode {
         return (
@@ -39,6 +44,8 @@ export class LoginScreen extends Component<Props, State>{
                 />
                 <Button title='LOGIN'
                         onPress={() => this._onLoginClick()}/>
+                <Button title='REGISTER'
+                        onPress={() => this._onRegisterClick()}/>
             </View>
         );
     }

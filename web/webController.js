@@ -2,6 +2,7 @@ import {Conversation} from "../model/Conversation";
 import {Message} from "../model/Message";
 
 export class webController{
+
     static async getConversationsList(userId: string) {
         try{
             let response = [
@@ -31,6 +32,10 @@ export class webController{
         }catch (e) {
 
         }
+    }
+
+    static async registerRequest(username: string, password: string) {
+
     }
 
     static async loginRequest(username: string, password: string) {
