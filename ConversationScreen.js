@@ -61,9 +61,9 @@ export class ConversationScreen extends Component<Props, State> {
                 <FlatList
                     data={this.state.messages}
                     renderItem={({item}) => {
-                        if (item.message.authorId!='1') {
+                        if (item.message.authorId!=='1') {
                             return(<View>
-                                <Text style={{textAlign: 'right'}}>{item.message.text}</Text>
+                                <Text style={{textAlign: 'right', backgroundColor: '#00f', color: '#fff'}}>{item.message.text}</Text>
                             </View>)
                         }else{
                             return(<View>

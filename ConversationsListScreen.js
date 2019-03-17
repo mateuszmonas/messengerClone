@@ -2,25 +2,32 @@ import React, {Component} from 'react';
 import {Conversation} from "./model/Conversation";
 import {FlatList, Text, TextInput, View, AsyncStorage} from "react-native";
 import {ListItem} from "react-native-elements"
+import {webController} from "./web/webController";
 
 type State = {
     conversations: [];
+    token: String;
+    userId: String;
 };
 
 
 
 export class ConversationsListScreen extends Component<Props, State> {
 
-    _getMessages(){
-        this.setState(state => {
-            const conversations = state.conversations.concat([
-                {conversation: new Conversation('1', 'konwersacja pierwsza')},
-                {conversation: new Conversation('2', 'konwersacja druga')}]);
-            return {
-                conversations
-            };
-        });
-    }
+    _getConversations() {
+        try {
+            webController.getConversationsList(this.state.userId).then(
+                (response) => this.setState(state => {
+                    const conversations = state.conversations.concat(response);
+                    return {
+                        conversations
+                    };
+                })
+            );
+        } catch (e) {
+
+        }
+    };
 
     _retrieveData = async () => {
         try {
@@ -38,17 +45,17 @@ export class ConversationsListScreen extends Component<Props, State> {
 
     constructor(props: P, context: any) {
         super(props, context);
-        this._retrieveData().then((data) => {
-            console.log(data.token);
-            console.log(data.userId);
-        });
         this.state = {
             conversations: []
         };
     }
 
     componentDidMount(){
-        this._getMessages();
+        this._retrieveData().then((data) => this.setState({
+            userId: data.userId,
+            token: data.token
+        }));
+        this._getConversations();
     }
 
     render() {

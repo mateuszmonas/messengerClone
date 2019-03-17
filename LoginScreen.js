@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {AsyncStorage, TextInput, Button, View} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {webController} from "./web/webController";
 
 type State = {
     loginText: String;
@@ -18,27 +19,26 @@ export class LoginScreen extends Component<Props, State>{
         }
     };
 
-    async loginRequest(){
-        try {
-            await AsyncStorage.setItem('token', '1928u498012uuer981u2hd');
-            await AsyncStorage.setItem('userId', '132');
-        } catch (error) {
-            // Error saving data
-        }
-        this.props.navigation.navigate('ConversationsListScreen')
+    async onLoginClick(){
+        webController.loginRequest(this.state.loginText, this.state.passwordText)
+            .then((response) => {
+                AsyncStorage.setItem('token', response.token);
+                AsyncStorage.setItem('userId', response.userId);
+                this.props.navigation.navigate('ConversationsListScreen')
+            });
     };
 
     render(): React.ReactNode {
         return (
             <View>
-                <TextInput
+                <TextInput style={{ borderColor: '#000' , borderWidth:1}}
                     onChangeText={(text) => this.setState({loginText: {text}})}
                 />
-                <TextInput secureTextEntry={true}
+                <TextInput style={{ borderColor: '#000' , borderWidth:1}} secureTextEntry={true}
                     onChangeText={(text) => this.setState({passwordText: {text}})}
                 />
                 <Button title='LOGIN'
-                        onPress={() => this.loginRequest()}/>
+                        onPress={() => this.onLoginClick()}/>
             </View>
         );
     }
