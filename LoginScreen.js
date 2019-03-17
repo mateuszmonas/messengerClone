@@ -10,9 +10,8 @@ type State = {
 
 export class LoginScreen extends Component<Props, State>{
 
-
     constructor(props: P, context: any) {
-        super(props, context);
+        super(props, context);;
         this.state = {
             loginText: "",
             passwordText: ""
@@ -32,7 +31,6 @@ export class LoginScreen extends Component<Props, State>{
         WebController.registerRequest(this.state.loginText, this.state.passwordText)
             .then();
     }
-
     render(): React.ReactNode {
         return (
             <View>

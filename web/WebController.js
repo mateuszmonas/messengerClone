@@ -3,6 +3,8 @@ import {Message} from "../model/Message";
 
 export class WebController{
 
+    static ws = new WebSocket('ws://10.0.2.2:8080');
+
     static async getConversationsList(userId: string) {
         try{
             let response = [
@@ -15,7 +17,7 @@ export class WebController{
     }
 
     static async postMessage(message: Message){
-
+        this.ws.send(JSON.stringify(message));
     }
 
     static async getMessages(conversationId: string) {
