@@ -19,7 +19,7 @@ export class LoginScreen extends Component<Props, State>{
         }
     };
 
-    async onLoginClick(){
+    async _onLoginClick(){
         webController.loginRequest(this.state.loginText, this.state.passwordText)
             .then((response) => {
                 AsyncStorage.setItem('token', response.token);
@@ -31,14 +31,14 @@ export class LoginScreen extends Component<Props, State>{
     render(): React.ReactNode {
         return (
             <View>
-                <TextInput style={{ borderColor: '#000' , borderWidth:1}}
+                <TextInput style={{ borderColor: '#000' , borderBottomWidth:1}}
                     onChangeText={(text) => this.setState({loginText: {text}})}
                 />
-                <TextInput style={{ borderColor: '#000' , borderWidth:1}} secureTextEntry={true}
+                <TextInput secureTextEntry={true}
                     onChangeText={(text) => this.setState({passwordText: {text}})}
                 />
                 <Button title='LOGIN'
-                        onPress={() => this.onLoginClick()}/>
+                        onPress={() => this._onLoginClick()}/>
             </View>
         );
     }

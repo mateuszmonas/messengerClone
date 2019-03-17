@@ -61,6 +61,7 @@ export class ConversationsListScreen extends Component<Props, State> {
                     data={this.state.conversations}
                     renderItem={({item}) =>
                         <ListItem
+                            containerStyle={{borderColor:'#000', borderBottomWidth:1}}
                             onPress={() => {
                                 this.props.navigation.navigate('ConversationScreen', {conversationId: item.conversation.conversationId})
                             }}
