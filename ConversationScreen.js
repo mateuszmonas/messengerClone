@@ -14,13 +14,8 @@ type State = {
 
 export class ConversationScreen extends Component<Props, State> {
 
-    _getMessages(){
-        WebController.getMessages().then((response) => this.setState(state => {
-            const messages = state.messages.concat(response);
-            return {
-                messages
-            };
-        }));
+    _getMessages(conversationId: String){
+        WebController.getMessages(conversationId).done();
     }
 
     _retrieveData = async () => {
@@ -41,9 +36,9 @@ export class ConversationScreen extends Component<Props, State> {
         WebController.postMessage(new Message((+id + 1).toString(), '1', text)).done();
     }
 
-    _addMessagesToState(message: Message){
+    _addMessagesToState(message){
         this.setState(state => {
-            const messages = state.messages.concat([{message: message}]);
+            const messages = state.messages.concat(message);
             return {
                 messages
             };
