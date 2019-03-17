@@ -1,11 +1,11 @@
 import {Conversation} from "../model/Conversation";
 import {Message} from "../model/Message";
 
-export class WebController{
+class WebController{
 
-    static ws = new WebSocket('ws://10.0.2.2:8080');
+    ws = new WebSocket('ws://10.0.2.2:8080');
 
-    static async getConversationsList(userId: string) {
+    async getConversationsList(userId: string) {
         try{
             let response = [
                 {conversation: new Conversation('1', 'Witek')},
@@ -16,11 +16,11 @@ export class WebController{
         }
     }
 
-    static async postMessage(message: Message){
+    async postMessage(message: Message){
         this.ws.send(JSON.stringify(message));
     }
 
-    static async getMessages(conversationId: string) {
+    async getMessages(conversationId: string) {
         try{
             let response = [
                 {message: new Message('1', '1', 'Cześć')},
@@ -36,11 +36,11 @@ export class WebController{
         }
     }
 
-    static async registerRequest(username: string, password: string) {
+    async registerRequest(username: string, password: string) {
 
     }
 
-    static async loginRequest(username: string, password: string) {
+    async loginRequest(username: string, password: string) {
         let token = '1928u498012uuer981u2hd';
         let userId = '321';
         try{
@@ -50,3 +50,5 @@ export class WebController{
         }
     }
 }
+
+export default new WebController();

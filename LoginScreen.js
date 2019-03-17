@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {AsyncStorage, TextInput, Button, View} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
-import {WebController} from "./web/WebController";
+import WebController from "./web/WebController";
 
 type State = {
     loginText: String;
@@ -11,7 +11,7 @@ type State = {
 export class LoginScreen extends Component<Props, State>{
 
     constructor(props: P, context: any) {
-        super(props, context);;
+        super(props, context);
         this.state = {
             loginText: "",
             passwordText: ""

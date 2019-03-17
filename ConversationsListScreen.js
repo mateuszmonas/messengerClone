@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Conversation} from "./model/Conversation";
 import {FlatList, Text, TextInput, View, AsyncStorage} from "react-native";
 import {ListItem} from "react-native-elements"
-import {WebController} from "./web/WebController";
+import WebController from "./web/WebController";
 
 type State = {
     conversations: [];
