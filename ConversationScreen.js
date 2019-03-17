@@ -37,7 +37,7 @@ export class ConversationScreen extends Component<Props, State> {
     };
 
     _postMessage(text: String){
-        let id = this.state.messages.slice(-1)[0].message.messageId;
+        let id = this.state.messages.slice(-1)[0].messageId;
         WebController.postMessage(new Message((+id + 1).toString(), '1', text)).done();
     }
 
@@ -78,18 +78,18 @@ export class ConversationScreen extends Component<Props, State> {
                 <FlatList
                     data={this.state.messages}
                     renderItem={({item}) => {
-                        if (item.message.authorId!=='1') {
+                        if (item.authorId!=='1') {
                             return(<View>
-                                <Text style={{textAlign: 'right', backgroundColor: '#00f', color: '#fff'}}>{item.message.text}</Text>
+                                <Text style={{textAlign: 'right', backgroundColor: '#00f', color: '#fff'}}>{item.text}</Text>
                             </View>)
                         }else{
                             return(<View>
-                                <Text>{item.message.text}</Text>
+                                <Text>{item.text}</Text>
                             </View>)
                         }
                     }
                     }
-                    keyExtractor={(item, index) => item.message.messageId}
+                    keyExtractor={(item, index) => index.toString()}
                 />
                 <TextInput
                     ref={input => { this.textInput = input }}

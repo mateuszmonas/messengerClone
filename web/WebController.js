@@ -12,7 +12,13 @@ class WebController{
         this.ee = new EventEmitter();
         this.ws = new WebSocket('ws://10.0.2.2:8080');
         this.ws.onmessage = (msg) => {
-            this.ee.emit('newMessageEvent', msg.data);
+            const resp = JSON.parse(msg.data);
+            const data = Object.keys(resp).map(key => ({
+                key,
+                ...resp[key]
+            }));
+            console.log(data);
+            //this.ee.emit('newMessageEvent', msg.data);
         };
     }
 
@@ -32,19 +38,20 @@ class WebController{
     }
 
     async postMessage(message: Message){
-        this.ws.send(JSON.stringify(message));
+        this.ws.send('0'+JSON.stringify(message));
     }
 
     async getMessages(conversationId: string) {
         try{
+            this.ws.send('1');
             let response = [
-                {message: new Message('1', '1', 'Cześć')},
-                {message: new Message('2', '2', 'Witam')},
-                {message: new Message('3', '1', 'Jak Sie Masz?')},
-                {message: new Message('4', '2', 'Bardzo dobrz, a ty?')},
-                {message: new Message('5', '1', 'wybitnie')},
-                {message: new Message('6', '2', 'To świetnie')},
-                {message: new Message('7', '1', 'zgadza sie')}];
+                new Message('1', '1', 'Cześć'),
+                new Message('2', '2', 'Witam'),
+                new Message('3', '1', 'Jak Sie Masz?'),
+                new Message('4', '2', 'Bardzo dobrz, a ty?'),
+                new Message('5', '1', 'wybitnie'),
+                new Message('6', '2', 'To świetnie'),
+                new Message('7', '1', 'zgadza sie')];
             return response;
         }catch (e) {
 
