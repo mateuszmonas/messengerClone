@@ -51,7 +51,7 @@ export class ConversationsListScreen extends Component<Props, State> {
             userId: data.userId,
             token: data.token
         })).then(
-        this._getConversations());
+        this._getConversations(this.state.userId));
     }
 
     render() {

@@ -45,18 +45,18 @@ export class ConversationScreen extends Component<Props, State> {
     }
 
     componentDidMount(){
+        const { navigation } = this.props;
+        const conversationId = navigation.getParam('conversationId', 'keine id');
         this._retrieveData().then(
             (data) => this.setState({
+                conversationId: conversationId,
                 userId: data.userId,
                 token: data.token
             })
-        ).then(this._getMessages());
+        ).then(this._getMessages(this.state.conversationId));
     }
 
     render() {
-        const { navigation } = this.props;
-        const convoId = navigation.getParam('conversationId', 'keine id');
-        console.log(convoId);
         return (
             <View>
                 <FlatList
