@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Conversation} from "./model/Conversation";
-import {FlatList, Text, TextInput, View, AsyncStorage} from "react-native";
+import {AsyncStorage, FlatList, View} from "react-native";
 import {ListItem} from "react-native-elements"
 import WebController from "./web/WebController";
 
@@ -30,8 +29,6 @@ export class ConversationsListScreen extends Component<Props, State> {
             const token = await AsyncStorage.getItem('token');
             const userId = await AsyncStorage.getItem('userId');
             if (userId !== null && token !== null) {
-                // We have data!!
-                // fetch('https://127.0.0.1:8080/getConversations/userId');
                 return {userId, token};
             }
         } catch (error) {
@@ -63,11 +60,11 @@ export class ConversationsListScreen extends Component<Props, State> {
                         <ListItem
                             containerStyle={{borderColor:'#000', borderBottomWidth:1}}
                             onPress={() => {
-                                this.props.navigation.navigate('ConversationScreen', {conversationId: item.conversation.conversationId})
+                                this.props.navigation.navigate('ConversationScreen', {conversationId: item.conversationId})
                             }}
-                            title={item.conversation.name}
+                            title={item.name}
                         />}
-                    keyExtractor={(item, index) => item.conversation.conversationId}
+                    keyExtractor={(item, index) => item.conversationId}
                 />
             </View>
         );

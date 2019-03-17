@@ -23,8 +23,8 @@ class WebController{
     async getConversationsList(userId: string) {
         try{
             let response = [
-                {conversation: new Conversation('1', 'Witek')},
-                {conversation: new Conversation('2', 'Krzysztof')}];
+                new Conversation('1', 'Witek'),
+                new Conversation('2', 'Krzysztof')];
             return response;
         }catch (e) {
 
