@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {AsyncStorage, TextInput, Button, View} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
-import {webController} from "./web/webController";
+import {WebController} from "./web/WebController";
 
 type State = {
     loginText: String;
@@ -20,7 +20,7 @@ export class LoginScreen extends Component<Props, State>{
     };
 
     _onLoginClick(){
-        webController.loginRequest(this.state.loginText, this.state.passwordText)
+        WebController.loginRequest(this.state.loginText, this.state.passwordText)
             .then((response) => {
                 AsyncStorage.setItem('token', response.token);
                 AsyncStorage.setItem('userId', response.userId);
@@ -29,7 +29,7 @@ export class LoginScreen extends Component<Props, State>{
     };
 
     _onRegisterClick(){
-        webController.registerRequest(this.state.loginText, this.state.passwordText)
+        WebController.registerRequest(this.state.loginText, this.state.passwordText)
             .then();
     }
 

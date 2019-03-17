@@ -1,7 +1,7 @@
 import {Conversation} from "../model/Conversation";
 import {Message} from "../model/Message";
 
-export class webController{
+export class WebController{
 
     static async getConversationsList(userId: string) {
         try{

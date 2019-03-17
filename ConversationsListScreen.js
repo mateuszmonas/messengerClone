@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Conversation} from "./model/Conversation";
 import {FlatList, Text, TextInput, View, AsyncStorage} from "react-native";
 import {ListItem} from "react-native-elements"
-import {webController} from "./web/webController";
+import {WebController} from "./web/WebController";
 
 type State = {
     conversations: [];
@@ -15,7 +15,7 @@ type State = {
 export class ConversationsListScreen extends Component<Props, State> {
 
     _getConversations() {
-        webController.getConversationsList(this.state.userId).then(
+        WebController.getConversationsList(this.state.userId).then(
             (response) => this.setState(state => {
                 const conversations = state.conversations.concat(response);
                 return {

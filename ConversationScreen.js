@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Message} from "./model/Message";
 import {FlatList, Text, TextInput, View, AsyncStorage} from "react-native";
-import {webController} from "./web/webController";
+import {WebController} from "./web/WebController";
 
 type State = {
     messages: [];
@@ -15,7 +15,7 @@ type State = {
 export class ConversationScreen extends Component<Props, State> {
 
     _getMessages(){
-        webController.getMessages().then((response) => this.setState(state => {
+        WebController.getMessages().then((response) => this.setState(state => {
             const messages = state.messages.concat(response);
             return {
                 messages
@@ -37,7 +37,7 @@ export class ConversationScreen extends Component<Props, State> {
     };
 
     _postMessage(text: String){
-        webController.postMessage().then();
+        WebController.postMessage().then();
         this.setState(state => {
             let id = state.messages.slice(-1)[0].message.messageId;
             console.log(id);
