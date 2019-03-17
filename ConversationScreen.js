@@ -36,6 +36,18 @@ export class ConversationScreen extends Component<Props, State> {
         }
     };
 
+    _postMessage(text: String){
+        webController.postMessage().then();
+        this.setState(state => {
+            let id = state.messages.slice(-1)[0].message.messageId;
+            console.log(id);
+            const messages = state.messages.concat([{message: new Message((+id + 1).toString(), '1', text)}]);
+            return {
+                messages
+            };
+        });
+    }
+
     constructor(props: P, context: any) {
         super(props, context);
         this._retrieveData().then((data) => console.log(data));
@@ -80,14 +92,7 @@ export class ConversationScreen extends Component<Props, State> {
                     onSubmitEditing={(event) => {
                         const text = event.nativeEvent.text;
                         this.textInput.clear();
-                        this.setState(state => {
-                            let id = state.messages.slice(-1)[0].message.messageId;
-                            console.log(id);
-                            const messages = state.messages.concat([{message: new Message((+id + 1).toString(), '1', text)}]);
-                            return {
-                                messages
-                            };
-                        });
+                        this._postMessage(text);
                     }}
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                 />

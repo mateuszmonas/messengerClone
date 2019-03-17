@@ -13,6 +13,10 @@ export class webController{
         }
     }
 
+    static async postMessage(message: Message){
+
+    }
+
     static async getMessages(conversationId: string) {
         try{
             let response = [
