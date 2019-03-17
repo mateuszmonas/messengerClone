@@ -1,30 +1,26 @@
 import React, {Component} from 'react';
 import {Message} from "./model/Message";
 import {FlatList, Text, TextInput, View, AsyncStorage} from "react-native";
+import {webController} from "./web/webController";
 
 type State = {
     messages: [];
     conversationId: number;
+    token: String;
+    userId: String;
 };
 
 
 
 export class ConversationScreen extends Component<Props, State> {
 
-    getMessages(){
-        this.setState(state => {
-            const messages = state.messages.concat([
-                {message: new Message('1', '1', 'Cześć')},
-                {message: new Message('2', '2', 'Witam')},
-                {message: new Message('3', '1', 'Jak Sie Masz?')},
-                {message: new Message('4', '2', 'Bardzo dobrz, a ty?')},
-                {message: new Message('5', '1', 'wybitnie')},
-                {message: new Message('6', '2', 'To świetnie')},
-                {message: new Message('7', '1', 'zgadza sie')}]);
+    _getMessages(){
+        webController.getMessages().then((response) => this.setState(state => {
+            const messages = state.messages.concat(response);
             return {
                 messages
             };
-        });
+        }));
     }
 
     _retrieveData = async () => {
@@ -49,7 +45,12 @@ export class ConversationScreen extends Component<Props, State> {
     }
 
     componentDidMount(){
-        this.getMessages();
+        this._retrieveData().then(
+            (data) => this.setState({
+                userId: data.userId,
+                token: data.token
+            })
+        ).then(this._getMessages());
     }
 
     render() {

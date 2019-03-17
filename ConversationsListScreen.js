@@ -15,18 +15,14 @@ type State = {
 export class ConversationsListScreen extends Component<Props, State> {
 
     _getConversations() {
-        try {
-            webController.getConversationsList(this.state.userId).then(
-                (response) => this.setState(state => {
-                    const conversations = state.conversations.concat(response);
-                    return {
-                        conversations
-                    };
-                })
-            );
-        } catch (e) {
-
-        }
+        webController.getConversationsList(this.state.userId).then(
+            (response) => this.setState(state => {
+                const conversations = state.conversations.concat(response);
+                return {
+                    conversations
+                };
+            })
+        );
     };
 
     _retrieveData = async () => {
@@ -54,8 +50,8 @@ export class ConversationsListScreen extends Component<Props, State> {
         this._retrieveData().then((data) => this.setState({
             userId: data.userId,
             token: data.token
-        }));
-        this._getConversations();
+        })).then(
+        this._getConversations());
     }
 
     render() {
