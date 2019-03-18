@@ -10,8 +10,9 @@ class WebController{
 
     constructor() {
         this.ee = new EventEmitter();
-        this.ws = new WebSocket('ws://10.0.2.2:8080');
-        this.ws.onmessage = (msg) => {
+        this.getMessagesWebSocket = new WebSocket('ws://10.0.2.2/getMessages:8080');
+        this.postMessageWebSocket = new WebSocket('ws://10.0.2.2/postMessage:8080');
+        this.getMessagesWebSocket.onmessage = (msg) => {
             this.ee.emit('newMessageEvent', msg.data);
         };
     }
@@ -32,11 +33,11 @@ class WebController{
     }
 
     async postMessage(message: Message){
-        this.ws.send('0'+JSON.stringify(message));
+        this.postMessageWebSocket.send(JSON.stringify(message));
     }
 
     async getMessages(conversationId: string) {
-        this.ws.send('1');
+        this.getMessagesWebSocket.send(conversationId);
     }
 
     async registerRequest(username: string, password: string) {
