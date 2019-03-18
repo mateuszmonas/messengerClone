@@ -23,12 +23,14 @@ export class LoginScreen extends Component<Props, State>{
                 AsyncStorage.setItem('token', 'asdfsasdgdfsergf324');//response.data.token);
                 AsyncStorage.setItem('userId', '1');//response.userId);
                 this.props.navigation.navigate('ConversationsListScreen')
-            });
+            }).catch((e) => {
+        });
     };
 
     _onRegisterClick(){
         WebController.registerRequest(this.state.loginText, this.state.passwordText)
-            .then();
+            .then().catch((e) => {
+        });
     }
     render(): React.ReactNode {
         return (

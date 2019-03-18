@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Message} from "./model/Message";
-import {FlatList, Text, TextInput, View, AsyncStorage} from "react-native";
+import {AsyncStorage, FlatList, Text, TextInput, View} from "react-native";
 import WebController from "./web/WebController";
 
 type State = {
@@ -24,7 +24,7 @@ export class ConversationScreen extends Component<Props, State> {
             const userId = await AsyncStorage.getItem('userId');
             if (token !== null && userId !== null) {
                 // We have data!!
-                return {token, userId};
+                return {token: token, userId: userId};
             }
         } catch (error) {
             // Error retrieving data
@@ -47,7 +47,6 @@ export class ConversationScreen extends Component<Props, State> {
 
     constructor(props: P, context: any) {
         super(props, context);
-        this._retrieveData().then((data) => console.log(data));
         this.state = {
             messages: []
         };
@@ -57,12 +56,18 @@ export class ConversationScreen extends Component<Props, State> {
         const { navigation } = this.props;
         const conversationId = navigation.getParam('conversationId', 'keine id');
         this._retrieveData().then(
-            (data) => this.setState({
-                conversationId: conversationId,
-                userId: data.userId,
-                token: data.token
-            })
-        ).then(this._getMessages(this.state.conversationId));
+            (data) => {
+                console.log(data.userId);
+                console.log(data.token);
+                this.setState({
+                    conversationId: conversationId,
+                    userId: data.userId,
+                    token: data.token
+                }, () => {
+                    this._getMessages(this.state.conversationId);
+                })
+            }
+        );
 
         WebController.subscribeToNewMessageEvent((msg: String) => {this._addMessagesToState(JSON.parse(msg))}).done();
     }

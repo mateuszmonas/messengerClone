@@ -10,8 +10,8 @@ class WebController{
 
     constructor() {
         this.ee = new EventEmitter();
-        this.getMessagesWebSocket = new WebSocket('ws://10.0.2.2/getMessages:8080');
-        this.postMessageWebSocket = new WebSocket('ws://10.0.2.2/postMessage:8080');
+        this.getMessagesWebSocket = new WebSocket('ws://10.0.2.2:8080/getMessages');
+        this.postMessageWebSocket = new WebSocket('ws://10.0.2.2:8080/postMessage');
         this.getMessagesWebSocket.onmessage = (msg) => {
             this.ee.emit('newMessageEvent', msg.data);
         };
@@ -21,7 +21,7 @@ class WebController{
         this.ee.on('newMessageEvent', fn);
     }
 
-    async getConversationsList(userId: string) {
+    async getConversationsList(userId: String) {
         try{
             let response = [
                 new Conversation('1', 'Witek'),
@@ -36,16 +36,16 @@ class WebController{
         this.postMessageWebSocket.send(JSON.stringify(message));
     }
 
-    async getMessages(conversationId: string) {
+    async getMessages(conversationId: String) {
         this.getMessagesWebSocket.send(conversationId);
     }
 
-    registerRequest(username: string, password: string) {
+    registerRequest(username: String, password: String) {
         return fetch('https://facebook.github.io/react-native/movies.json')
             .then((response) => response.json());
     }
 
-    loginRequest(username: string, password: string) {
+    loginRequest(username: String, password: String) {
         return fetch('https://facebook.github.io/react-native/movies.json')
             .then((response) => response.json());
     }
