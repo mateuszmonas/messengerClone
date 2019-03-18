@@ -40,18 +40,14 @@ class WebController{
         this.getMessagesWebSocket.send(conversationId);
     }
 
-    async registerRequest(username: string, password: string) {
-
+    registerRequest(username: string, password: string) {
+        return fetch('https://facebook.github.io/react-native/movies.json')
+            .then((response) => response.json());
     }
 
-    async loginRequest(username: string, password: string) {
-        let token = '1928u498012uuer981u2hd';
-        let userId = '321';
-        try{
-            return {token: token, userId: userId}
-        }catch (e) {
-
-        }
+    loginRequest(username: string, password: string) {
+        return fetch('https://facebook.github.io/react-native/movies.json')
+            .then((response) => response.json());
     }
 }
 

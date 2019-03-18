@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {AsyncStorage, TextInput, Button, View} from 'react-native';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {AsyncStorage, Button, TextInput, View} from 'react-native';
 import WebController from "./web/WebController";
-import {EventEmitter} from "eventemitter3";
 
 type State = {
     loginText: String;
@@ -21,9 +19,9 @@ export class LoginScreen extends Component<Props, State>{
 
     _onLoginClick(){
         WebController.loginRequest(this.state.loginText, this.state.passwordText)
-            .then((response) => {
-                AsyncStorage.setItem('token', response.token);
-                AsyncStorage.setItem('userId', response.userId);
+            .then(response => {
+                AsyncStorage.setItem('token', 'asdfsasdgdfsergf324');//response.data.token);
+                AsyncStorage.setItem('userId', '1');//response.userId);
                 this.props.navigation.navigate('ConversationsListScreen')
             });
     };
