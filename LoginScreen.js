@@ -20,26 +20,24 @@ export class LoginScreen extends Component<Props, State>{
     _onLoginClick(){
         WebController.loginRequest(this.state.loginText, this.state.passwordText)
             .then(response => {
-                AsyncStorage.setItem('token', 'asdfsasdgdfsergf324');//response.data.token);
-                AsyncStorage.setItem('userId', '1');//response.userId);
+                AsyncStorage.setItem('token', response.data.token);
+                AsyncStorage.setItem('userId', response.id.toString());
                 this.props.navigation.navigate('ConversationsListScreen')
-            }).catch((e) => {
-        });
+            }).catch((e) => console.log(e));
     };
 
     _onRegisterClick(){
         WebController.registerRequest(this.state.loginText, this.state.passwordText)
-            .then().catch((e) => {
-        });
+            .then().catch((e) => console.log(e));
     }
     render(): React.ReactNode {
         return (
             <View style={styles.container}>
                 <TextInput style={styles.usernameInput}
-                           onChangeText={(text) => this.setState({loginText: {text}})}
+                           onChangeText={(text) => this.setState({loginText: text})}
                 />
                 <TextInput style={styles.passwordInput} secureTextEntry={true}
-                           onChangeText={(text) => this.setState({passwordText: {text}})}
+                           onChangeText={(text) => this.setState({passwordText: text})}
                 />
                 <View style={styles.bottom}>
                     <Button style={styles.loginButton} title='LOGIN'

@@ -18,12 +18,13 @@ export class ConversationScreen extends Component<Props, State> {
         WebController.getMessages(conversationId).done();
     }
 
+
+    x;
     _retrieveData = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
             const userId = await AsyncStorage.getItem('userId');
             if (token !== null && userId !== null) {
-                // We have data!!
                 return {token: token, userId: userId};
             }
         } catch (error) {
@@ -57,8 +58,6 @@ export class ConversationScreen extends Component<Props, State> {
         const conversationId = navigation.getParam('conversationId', 'keine id');
         this._retrieveData().then(
             (data) => {
-                console.log(data.userId);
-                console.log(data.token);
                 this.setState({
                     conversationId: conversationId,
                     userId: data.userId,
