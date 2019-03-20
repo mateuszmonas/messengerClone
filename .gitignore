@@ -58,3 +58,4 @@ buck-out/
 android
 ios
 node_modules
+.env

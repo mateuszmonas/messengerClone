@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import {AsyncStorage, FlatList, View} from "react-native";
+import {FlatList, View} from "react-native";
 import {ListItem} from "react-native-elements"
 import WebController from "./web/WebController";
 
 type State = {
     conversations: [];
-    token: String;
-    userId: String;
 };
 
 
@@ -14,7 +12,7 @@ type State = {
 export class ConversationsListScreen extends Component<Props, State> {
 
     _getConversations() {
-        WebController.getConversationsList(this.state.userId).then(
+        WebController.getConversationsList().then(
             (response) => this.setState(state => {
                 const conversations = state.conversations.concat(response);
                 return {
@@ -22,18 +20,6 @@ export class ConversationsListScreen extends Component<Props, State> {
                 };
             })
         );
-    };
-
-    _retrieveData = async () => {
-        try {
-            const token = await AsyncStorage.getItem('token');
-            const userId = await AsyncStorage.getItem('userId');
-            if (userId !== null && token !== null) {
-                return {userId, token};
-            }
-        } catch (error) {
-            // Error retrieving data
-        }
     };
 
     constructor(props: P, context: any) {
@@ -44,11 +30,7 @@ export class ConversationsListScreen extends Component<Props, State> {
     }
 
     componentDidMount(){
-        this._retrieveData().then((data) => this.setState({
-            userId: data.userId,
-            token: data.token
-        })).then(
-        this._getConversations(this.state.userId));
+        this._getConversations();
     }
 
     render() {

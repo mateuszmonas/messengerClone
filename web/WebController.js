@@ -21,7 +21,7 @@ class WebController{
         this.ee.on('newMessageEvent', fn);
     }
 
-    async getConversationsList(userId: String) {
+    async getConversationsList() {
         try{
             let response = [
                 new Conversation('1', 'Witek'),
@@ -42,7 +42,7 @@ class WebController{
     }
 
     registerRequest(username: String, password: String) {
-        return fetch('https://3e3c9483.ngrok.io/register', {
+        return fetch('http://10.0.2.2:3000/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ class WebController{
     }
 
     loginRequest(username: String, password: String) {
-        return fetch('https://3e3c9483.ngrok.io/login', {
+        return fetch('http://10.0.2.2:3000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,6 +70,7 @@ class WebController{
                     this.token = response.data.token;
                     this.userId = response.userId;
                 }
+                return response;
             });
     }
 }

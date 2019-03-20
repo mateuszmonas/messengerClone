@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import {Message} from "./model/Message";
-import {AsyncStorage, FlatList, Text, TextInput, View} from "react-native";
+import {FlatList, Text, TextInput, View} from "react-native";
 import WebController from "./web/WebController";
 
 type State = {
     messages: [];
     conversationId: number;
-    token: String;
-    userId: String;
 };
 
 
@@ -17,18 +15,6 @@ export class ConversationScreen extends Component<Props, State> {
     _getMessages(conversationId: String){
         WebController.getMessages(conversationId).done();
     }
-
-    _retrieveData = async () => {
-        try {
-            const token = await AsyncStorage.getItem('token');
-            const userId = await AsyncStorage.getItem('userId');
-            if (token !== null && userId !== null) {
-                return {token: token, userId: userId};
-            }
-        } catch (error) {
-            // Error retrieving data
-        }
-    };
 
     _postMessage(text: String){
         let id = this.state.messages.slice(-1)[0].messageId;
@@ -53,18 +39,12 @@ export class ConversationScreen extends Component<Props, State> {
 
     componentDidMount(){
         const { navigation } = this.props;
-        const conversationId = navigation.getParam('conversationId', 'keine id');
-        this._retrieveData().then(
-            (data) => {
-                this.setState({
-                    conversationId: conversationId,
-                    userId: data.userId,
-                    token: data.token
-                }, () => {
-                    this._getMessages(this.state.conversationId);
-                })
-            }
-        );
+        const conversationId = navigation.getParam('conversationId', '0');
+        this.setState({
+            conversationId: conversationId,
+        }, () => {
+            this._getMessages(this.state.conversationId);
+        });
 
         WebController.subscribeToNewMessageEvent((msg: String) => {this._addMessagesToState(JSON.parse(msg))}).done();
     }
