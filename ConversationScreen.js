@@ -18,8 +18,6 @@ export class ConversationScreen extends Component<Props, State> {
         WebController.getMessages(conversationId).done();
     }
 
-
-    x;
     _retrieveData = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -82,7 +80,7 @@ export class ConversationScreen extends Component<Props, State> {
                                 <Text style={{textAlign: 'right', backgroundColor: '#00f', color: '#fff'}}>{item.text}</Text>
                             </View>)
                         }else{
-                            return(<View>
+                            return (<View>
                                 <Text>{item.text}</Text>
                             </View>)
                         }

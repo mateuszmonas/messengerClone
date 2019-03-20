@@ -42,7 +42,7 @@ class WebController{
     }
 
     registerRequest(username: String, password: String) {
-        return fetch('http://10.0.2.2:3000/register', {
+        return fetch('https://3e3c9483.ngrok.io/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,12 +51,11 @@ class WebController{
                 login: username,
                 password: password
             })
-        }).then((response) => response.json());
-
+        }).then(response => response.json());
     }
 
     loginRequest(username: String, password: String) {
-        return fetch('http://10.0.2.2:3000/login', {
+        return fetch('https://3e3c9483.ngrok.io/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -65,8 +64,13 @@ class WebController{
                 login: username,
                 password: password,
             })
-        }).then((response) => response.json());
-
+        }).then((response) => response.json())
+            .then(response => {
+                if (response.success) {
+                    this.token = response.data.token;
+                    this.userId = response.userId;
+                }
+            });
     }
 }
 

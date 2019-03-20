@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AsyncStorage, Button, StyleSheet, TextInput, View} from 'react-native';
+import {Button, StyleSheet, TextInput, View} from 'react-native';
 import WebController from "./web/WebController";
 
 type State = {
@@ -20,15 +20,16 @@ export class LoginScreen extends Component<Props, State>{
     _onLoginClick(){
         WebController.loginRequest(this.state.loginText, this.state.passwordText)
             .then(response => {
-                AsyncStorage.setItem('token', response.data.token);
-                AsyncStorage.setItem('userId', response.id.toString());
-                this.props.navigation.navigate('ConversationsListScreen')
-            }).catch((e) => console.log(e));
+                if (response.success) {
+                    this.props.navigation.navigate('ConversationsListScreen');
+                }
+            })
+            .catch(console.log);
     };
 
     _onRegisterClick(){
         WebController.registerRequest(this.state.loginText, this.state.passwordText)
-            .then().catch((e) => console.log(e));
+            .then().catch(console.log);
     }
     render(): React.ReactNode {
         return (
