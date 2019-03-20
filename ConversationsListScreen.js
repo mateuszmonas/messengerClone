@@ -13,14 +13,18 @@ export class ConversationsListScreen extends Component<Props, State> {
 
     _getConversations() {
         WebController.getConversationsList().then(
-            (response) => this.setState(state => {
-                const conversations = state.conversations.concat(response);
-                return {
-                    conversations
-                };
-            })
-        );
+            (response) => this._addConversationsToState(response))
+
     };
+
+    _addConversationsToState(conversation) {
+        this.setState(state => {
+            const conversations = state.conversations.concat(conversation);
+            return {
+                conversations
+            };
+        })
+    }
 
     constructor(props: P, context: any) {
         super(props, context);

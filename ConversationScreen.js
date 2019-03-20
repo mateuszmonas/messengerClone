@@ -12,8 +12,8 @@ type State = {
 
 export class ConversationScreen extends Component<Props, State> {
 
-    _getMessages(conversationId: String){
-        WebController.getMessages(conversationId).done();
+    _getMessages() {
+        WebController.getMessages(this.state.conversationId).then(response => this._addMessagesToState(response));
     }
 
     _postMessage(text: String){
