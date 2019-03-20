@@ -50,7 +50,7 @@ export class ConversationsListScreen extends Component<Props, State> {
                             }}
                             title={item.name}
                         />}
-                    keyExtractor={(item, index) => item.conversationId}
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </View>
         );

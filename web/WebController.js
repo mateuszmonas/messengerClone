@@ -1,5 +1,6 @@
 import {Message} from "../model/Message";
 import {EventEmitter} from "eventemitter3";
+import {AsyncStorage} from "react-native";
 
 export interface ListenerFn {
     (...args: Array<any>): void;
@@ -10,7 +11,6 @@ class WebController{
     constructor() {
         this.ee = new EventEmitter();
         this.newMessageSocket = new WebSocket('ws://10.0.2.2:8080/getMessages');
-        this.postMessageWebSocket = new WebSocket('ws://10.0.2.2:8080/postMessage');
         this.newMessageSocket.onmessage = (msg) => {
             this.ee.emit('newMessageEvent', msg.data);
         };
@@ -21,8 +21,11 @@ class WebController{
     }
 
     async postMessage(message: Message){
-        console.log(JSON.stringify(message));
-        this.postMessageWebSocket.send(JSON.stringify(message));
+        return fetch('http://10.0.2.2:3000/postMessage',
+            {
+                method: 'POST',
+                body: JSON.stringify(message)
+            }).then(response => response.json());
     }
 
     getConversationsList() {
@@ -65,6 +68,8 @@ class WebController{
         }).then((response) => response.json())
             .then(response => {
                 if (response.success) {
+                    AsyncStorage.setItem('token', response.data.token);
+                    AsyncStorage.setItem('userId', response.userId.toString());
                     this.token = response.data.token;
                     this.userId = response.userId;
                 }

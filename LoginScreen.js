@@ -31,6 +31,7 @@ export class LoginScreen extends Component<Props, State>{
         WebController.registerRequest(this.state.loginText, this.state.passwordText)
             .then().catch(console.log);
     }
+
     render(): React.ReactNode {
         return (
             <View style={styles.container}>

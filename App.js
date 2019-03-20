@@ -6,11 +6,12 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React from 'react';
 import {ConversationScreen} from "./ConversationScreen";
 import {LoginScreen} from "./LoginScreen";
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {createAppContainer, createStackNavigator} from 'react-navigation';
 import {ConversationsListScreen} from "./ConversationsListScreen";
+import {SplashScreen} from "./SplashScreen";
 
 export const MainNavigator = createStackNavigator({
     LoginScreen: {
@@ -26,9 +27,15 @@ export const MainNavigator = createStackNavigator({
     ConversationsListScreen: {screen: ConversationsListScreen,
         navigationOptions: {
             header: null
+        }
+    },
+    SplashScreen: {
+        screen: SplashScreen,
+        navigationOptions: {
+            header: null
         }}
 }, {
-    initialRouteName: 'LoginScreen'
+    initialRouteName: 'SplashScreen'
 });
 
 const App = createAppContainer(MainNavigator);
