@@ -12,6 +12,8 @@ class WebController{
     constructor() {
         this.ee = new EventEmitter();
         this.newMessageSocket = new WebSocket(MessageWebSocketURL + '/getMessages');
+        this.token = AsyncStorage.getItem('token');
+        this.userId = AsyncStorage.getItem('userId');
         this.newMessageSocket.onmessage = (msg) => {
             this.ee.emit('newMessageEvent', msg.data);
         };
@@ -30,7 +32,7 @@ class WebController{
     }
 
     getConversationsList() {
-        return fetch(MessageServerURL + '/getConversations',
+        return fetch(MessageServerURL + `/getConversations?userId=${this.userId}`,
             {
                 method: 'GET',
             }).then(response => response.json());
@@ -68,6 +70,7 @@ class WebController{
             })
         }).then((response) => response.json())
             .then(response => {
+                console.log(response);
                 if (response.success) {
                     AsyncStorage.setItem('token', response.data.token);
                     AsyncStorage.setItem('userId', response.userId.toString());

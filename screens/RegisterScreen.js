@@ -35,6 +35,8 @@ export class RegisterScreen extends React.Component<Props, State> {
 
 
     _onRegisterClick() {
+        console.log(this.state.passwordText);
+        console.log(this.state.repeatPasswordText);
         if (this.state.passwordText === this.state.repeatPasswordText) {
             WebController.registerRequest(this.state.loginText, this.state.passwordText)
                 .then(response => {
@@ -56,9 +58,6 @@ export class RegisterScreen extends React.Component<Props, State> {
             <View style={styles.container}>
                 <TextInput style={styles.usernameInput}
                            onChangeText={(text) => this.setState({loginText: text})}
-                />
-                <TextInput style={styles.emailInput} secureTextEntry={true}
-                           onChangeText={(text) => this.setState({emailText: text})}
                 />
                 <TextInput style={styles.passwordInput} secureTextEntry={true}
                            onChangeText={(text) => this.setState({passwordText: text})}
