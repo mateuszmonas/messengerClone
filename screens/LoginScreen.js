@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, StyleSheet, TextInput, View} from 'react-native';
-import WebController from "./web/WebController";
+import WebController from "../web/WebController";
 import {NavigationActions, StackActions} from "react-navigation";
 
 type State = {

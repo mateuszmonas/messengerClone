@@ -27,8 +27,6 @@ export class SplashScreen extends React.Component<Props> {
     _checkIfLoggedIn = async () => {
         const token = await AsyncStorage.getItem('token');
         const userId = await AsyncStorage.getItem('userId');
-        console.log(token);
-        console.log(userId);
         if (token && userId) {
             this.destroyScreen('ConversationsListScreen');
             this.props.navigation.navigate('ConversationsListScreen');

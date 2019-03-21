@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FlatList, View} from "react-native";
 import {ListItem} from "react-native-elements"
-import WebController from "./web/WebController";
+import WebController from "../web/WebController";
 
 type State = {
     conversations: [];
@@ -14,6 +14,10 @@ export class ConversationsListScreen extends Component<Props, State> {
     _getConversations() {
         WebController.getConversationsList().then(
             (response) => this._addConversationsToState(response))
+            .catch((e) => {
+                console.log('getConversationslist');
+                console.log(e);
+            })
 
     };
 

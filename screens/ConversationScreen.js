@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Message} from "./model/Message";
+import {Message} from "../model/Message";
 import {FlatList, Text, TextInput, View} from "react-native";
-import WebController from "./web/WebController";
+import WebController from "../web/WebController";
 
 type State = {
     messages: [];

@@ -7,12 +7,12 @@
  */
 
 import React from 'react';
-import {ConversationScreen} from "./ConversationScreen";
-import {LoginScreen} from "./LoginScreen";
+import {ConversationScreen} from "./screens/ConversationScreen";
+import {LoginScreen} from "./screens/LoginScreen";
 import {createAppContainer, createStackNavigator} from 'react-navigation';
-import {ConversationsListScreen} from "./ConversationsListScreen";
-import {SplashScreen} from "./SplashScreen";
-import {RegisterScreen} from "./RegisterScreen";
+import {ConversationsListScreen} from "./screens/ConversationsListScreen";
+import {SplashScreen} from "./screens/SplashScreen";
+import {RegisterScreen} from "./screens/RegisterScreen";
 
 export const MainNavigator = createStackNavigator({
     LoginScreen: {

@@ -1,3 +1,3 @@
-export const MessageServerURL = 'http://a4d9e970.ngrok.io';
-export const AuthenticationServerURL = 'https://a4d9e970.ngrok.io';
+export const MessageServerURL = 'http://10.0.2.2:3000';
+export const AuthenticationServerURL = 'http://10.0.2.2:3000';
 export const MessageWebSocketURL = 'ws://10.0.2.2:8080';
