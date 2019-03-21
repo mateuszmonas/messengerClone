@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, View} from "react-native";
+import {Button, FlatList, View} from "react-native";
 import {ListItem} from "react-native-elements"
 import WebController from "../web/WebController";
 
@@ -7,15 +7,13 @@ type State = {
     conversations: [];
 };
 
-
-
 export class ConversationsListScreen extends Component<Props, State> {
 
     _getConversations() {
         WebController.getConversationsList().then(
             (response) => this._addConversationsToState(response))
             .catch((e) => {
-                console.log('getConversationslist');
+                console.log('getConversationsList');
                 console.log(e);
             })
 
@@ -28,6 +26,10 @@ export class ConversationsListScreen extends Component<Props, State> {
                 conversations
             };
         })
+    }
+
+    _onCreateConversationClick() {
+
     }
 
     constructor(props: P, context: any) {
@@ -56,6 +58,10 @@ export class ConversationsListScreen extends Component<Props, State> {
                         />}
                     keyExtractor={(item, index) => index.toString()}
                 />
+                <View style={styles.bottom}>
+                    <Button style={styles.createConversationButton} title='CREATE CONVERSATION'
+                            onPress={() => this._onCreateConversationClick()}/>
+                </View>
             </View>
         );
     }

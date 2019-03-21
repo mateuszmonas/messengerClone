@@ -31,8 +31,12 @@ class WebController{
             }).then(response => response.json());
     }
 
+    async postConversation() {
+
+    }
+
     getConversationsList() {
-        return fetch(MessageServerURL + `/getConversations?userId=${this.userId}`,
+        return fetch(MessageServerURL + `/getConversations/${this.userId}`,
             {
                 method: 'GET',
             }).then(response => response.json());
@@ -73,6 +77,7 @@ class WebController{
                 console.log(response);
                 if (response.success) {
                     AsyncStorage.setItem('token', response.data.token);
+                    AsyncStorage.setItem('username', username);
                     AsyncStorage.setItem('userId', response.userId.toString());
                     this.token = response.data.token;
                     this.userId = response.userId;
