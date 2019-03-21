@@ -28,8 +28,7 @@ export class LoginScreen extends Component<Props, State>{
     };
 
     _onRegisterClick(){
-        WebController.registerRequest(this.state.loginText, this.state.passwordText)
-            .then().catch(console.log);
+        this.props.navigation.navigate('RegisterScreen')
     }
 
     render(): React.ReactNode {

@@ -12,10 +12,17 @@ import {LoginScreen} from "./LoginScreen";
 import {createAppContainer, createStackNavigator} from 'react-navigation';
 import {ConversationsListScreen} from "./ConversationsListScreen";
 import {SplashScreen} from "./SplashScreen";
+import {RegisterScreen} from "./RegisterScreen";
 
 export const MainNavigator = createStackNavigator({
     LoginScreen: {
         screen: LoginScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    RegisterScreen: {
+        screen: RegisterScreen,
         navigationOptions: {
             header: null
         }

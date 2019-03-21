@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, StyleSheet, TextInput, View} from "react-native";
+import WebController from "./web/WebController";
 
 type State = {
     loginText: String;
@@ -9,7 +10,33 @@ type State = {
 }
 
 
-export class RegisterScreen extends React.Component<Props> {
+export class RegisterScreen extends React.Component<Props, State> {
+    constructor(props: P, context: any) {
+        super(props, context);
+        this.state = {
+            loginText: "",
+            emailText: "",
+            passwordText: "",
+            repeatPasswordText: ""
+        }
+    };
+
+    _onRegisterClick() {
+        if (this.state.passwordText === this.state.repeatPasswordText) {
+            WebController.registerRequest(this.state.loginText, this.state.passwordText)
+                .then(response => {
+                    if (response.success) {
+                        WebController.loginRequest(this.state.loginText, this.state.passwordText)
+                            .then(response => {
+                                if (response.success) {
+                                    this.props.navigation.navigate('ConversationsListScreen');
+                                }
+                            }).catch(console.log)
+                    }
+                }).catch(console.log);
+        }
+    }
+
     render(): React.ReactNode {
         return (
             <View style={styles.container}>
@@ -26,8 +53,6 @@ export class RegisterScreen extends React.Component<Props> {
                            onChangeText={(text) => this.setState({repeatPasswordText: text})}
                 />
                 <View style={styles.bottom}>
-                    <Button style={styles.loginButton} title='LOGIN'
-                            onPress={() => this._onLoginClick()}/>
                     <Button style={styles.registerButton} title='REGISTER'
                             onPress={() => this._onRegisterClick()}/>
                 </View>
@@ -56,7 +81,6 @@ const styles = StyleSheet.create({
     passwordInput: {
         backgroundColor: '#fff',
     },
-    loginButton: {},
     registerButton: {},
     bottom: {
         flex: 1,
