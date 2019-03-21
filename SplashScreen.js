@@ -13,7 +13,8 @@ export class SplashScreen extends React.Component<Props> {
         return <Text>elo</Text>;
     }
 
-    navigateAfterFinish = (screen) => {
+    //destroys this screen after leaving so the user cant go back
+    destroyScreen = (screen) => {
         const resetAction = StackActions.reset({
             index: 0,
             actions: [
@@ -29,10 +30,10 @@ export class SplashScreen extends React.Component<Props> {
         console.log(token);
         console.log(userId);
         if (token && userId) {
-            this.navigateAfterFinish('ConversationsListScreen');
+            this.destroyScreen('ConversationsListScreen');
             this.props.navigation.navigate('ConversationsListScreen');
         } else {
-            this.navigateAfterFinish('LoginScreen');
+            this.destroyScreen('LoginScreen');
             this.props.navigation.navigate('LoginScreen');
         }
     };

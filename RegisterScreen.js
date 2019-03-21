@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, StyleSheet, TextInput, View} from "react-native";
 import WebController from "./web/WebController";
+import {NavigationActions, StackActions} from "react-navigation";
 
 type State = {
     loginText: String;
@@ -21,6 +22,18 @@ export class RegisterScreen extends React.Component<Props, State> {
         }
     };
 
+    //destroys this screen after leaving so the user cant go back
+    destroyScreen = (screen) => {
+        const resetAction = StackActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({routeName: screen})],
+            key: null
+        });
+        this.props.navigation.dispatch(resetAction);
+    };
+
+
     _onRegisterClick() {
         if (this.state.passwordText === this.state.repeatPasswordText) {
             WebController.registerRequest(this.state.loginText, this.state.passwordText)
@@ -29,6 +42,7 @@ export class RegisterScreen extends React.Component<Props, State> {
                         WebController.loginRequest(this.state.loginText, this.state.passwordText)
                             .then(response => {
                                 if (response.success) {
+                                    this.destroyScreen('ConversationsListScreen');
                                     this.props.navigation.navigate('ConversationsListScreen');
                                 }
                             }).catch(console.log)
