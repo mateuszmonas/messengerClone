@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, StyleSheet, TextInput, View} from "react-native";
 import WebController from "../web/WebController";
 import {NavigationActions, StackActions} from "react-navigation";
+import ScreenUtils from "../ScreenUtils";
 
 type State = {
     loginText: String;
@@ -44,7 +45,7 @@ export class RegisterScreen extends React.Component<Props, State> {
                         WebController.loginRequest(this.state.loginText, this.state.passwordText)
                             .then(response => {
                                 if (response.success) {
-                                    this.destroyScreen('ConversationsListScreen');
+                                    ScreenUtils.destroyScreen('ConversationsListScreen', this.props.navigation);
                                     this.props.navigation.navigate('ConversationsListScreen');
                                 }
                             }).catch(console.log)

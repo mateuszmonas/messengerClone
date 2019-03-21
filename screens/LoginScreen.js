@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, StyleSheet, TextInput, View} from 'react-native';
 import WebController from "../web/WebController";
-import {NavigationActions, StackActions} from "react-navigation";
+import ScreenUtils from "../ScreenUtils";
 
 type State = {
     loginText: String;
@@ -18,22 +18,11 @@ export class LoginScreen extends Component<Props, State>{
         }
     };
 
-    //destroys this screen after leaving so the user cant go back
-    destroyScreen = (screen) => {
-        const resetAction = StackActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({routeName: screen})],
-            key: null
-        });
-        this.props.navigation.dispatch(resetAction);
-    };
-
     _onLoginClick(){
         WebController.loginRequest(this.state.loginText, this.state.passwordText)
             .then(response => {
                 if (response.success) {
-                    this.destroyScreen('ConversationsListScreen');
+                    ScreenUtils.destroyScreen('ConversationsListScreen', this.props.navigation);
                     this.props.navigation.navigate('ConversationsListScreen');
                 }
             })
