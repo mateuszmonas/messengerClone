@@ -1,6 +1,7 @@
 import {Message} from "../model/Message";
 import {EventEmitter} from "eventemitter3";
 import {AsyncStorage} from "react-native";
+import {MessageServerURL, MessageWebSocketURL} from "../GlobalStrings";
 
 export interface ListenerFn {
     (...args: Array<any>): void;
@@ -10,7 +11,7 @@ class WebController{
 
     constructor() {
         this.ee = new EventEmitter();
-        this.newMessageSocket = new WebSocket('ws://10.0.2.2:8080/getMessages');
+        this.newMessageSocket = new WebSocket(MessageWebSocketURL + '/getMessages');
         this.newMessageSocket.onmessage = (msg) => {
             this.ee.emit('newMessageEvent', msg.data);
         };
@@ -21,7 +22,7 @@ class WebController{
     }
 
     async postMessage(message: Message){
-        return fetch('http://10.0.2.2:3000/postMessage',
+        return fetch(MessageServerURL + '/postMessage',
             {
                 method: 'POST',
                 body: JSON.stringify(message)
@@ -29,21 +30,21 @@ class WebController{
     }
 
     getConversationsList() {
-        return fetch('http://10.0.2.2:3000/getConversations',
+        return fetch(MessageServerURL + '/getConversations',
             {
                 method: 'GET',
             }).then(response => response.json());
     }
 
     getMessages(conversationId: String) {
-        return fetch('http://10.0.2.2:3000/getMessages',
+        return fetch(MessageServerURL + '/getMessages',
             {
                 method: 'GET',
             }).then(response => response.json());
     }
 
     registerRequest(username: String, password: String) {
-        return fetch('http://10.0.2.2:3000/register', {
+        return fetch(MessageServerURL + '/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +57,7 @@ class WebController{
     }
 
     loginRequest(username: String, password: String) {
-        return fetch('http://10.0.2.2:3000/login', {
+        return fetch(MessageServerURL + '/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

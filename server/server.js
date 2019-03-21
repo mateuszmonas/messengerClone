@@ -4,7 +4,7 @@ const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection', function connection(ws, req) {
     ws.on('message', function incoming(message) {
-        console.log('url: %s', req.url);
+        console.log('MessageServerURL: %s', req.url);
         switch (req.url) {
             case '/postMessage':
                 ws.send(message);
