@@ -1,7 +1,7 @@
 import {Message} from "../model/Message";
 import {EventEmitter} from "eventemitter3";
 import {AsyncStorage} from "react-native";
-import {MessageServerURL, MessageWebSocketURL} from "../GlobalStrings";
+import {AuthenticationServerURL, MessageServerURL, MessageWebSocketURL} from "../GlobalStrings";
 
 export interface ListenerFn {
     (...args: Array<any>): void;
@@ -44,7 +44,7 @@ class WebController{
     }
 
     registerRequest(username: String, password: String) {
-        return fetch(MessageServerURL + '/register', {
+        return fetch(AuthenticationServerURL + '/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ class WebController{
     }
 
     loginRequest(username: String, password: String) {
-        return fetch(MessageServerURL + '/login', {
+        return fetch(AuthenticationServerURL + '/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
