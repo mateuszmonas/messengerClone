@@ -17,7 +17,6 @@ export class ConversationScreen extends Component<Props, State> {
     }
 
     _postMessage(text: String){
-        let id = this.state.messages.slice(-1)[0].messageId;
         WebController.postMessage(new Message((+id + 1).toString(), '1', text)).done();
     }
 

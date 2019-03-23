@@ -14,6 +14,7 @@ class WebController{
         this.newMessageSocket = new WebSocket(MessageWebSocketURL + '/getMessages');
         this.token = AsyncStorage.getItem('token');
         this.userId = AsyncStorage.getItem('userId');
+        this.username = AsyncStorage.getItem('username');
         this.newMessageSocket.onmessage = (msg) => {
             this.ee.emit('newMessageEvent', msg.data);
         };
@@ -31,15 +32,37 @@ class WebController{
             }).then(response => response.json());
     }
 
+    addUserToConversation(username: String, conversationId: number) {
+        return fetch(MessageServerURL + `/addUserToConversation`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({conversationId: conversationId, userLogin: username})
+            }).then(response => response.json());
+    }
+
     postConversation(conversationName: String, users: []) {
         return fetch(MessageServerURL + `/createConversation`,
             {
                 method: 'POST',
-                header: {
+                headers: {
                     'Content-type': 'application/json'
                 },
                 body: JSON.stringify({name: conversationName})
-            }).then(response => response.json())
+            }).then(response => {
+            response.json()
+        }).then(response => {
+            this.addUserToConversation(this.username, response.id)
+                .catch(console.log);
+            return response;
+        }).then(response => {
+            for (let i = 0; i < users.length; i++) {
+                this.addUserToConversation(users[i], response.id);
+            }
+            return response;
+        });
     }
 
     getConversationsList() {
@@ -81,13 +104,13 @@ class WebController{
             })
         }).then((response) => response.json())
             .then(response => {
-                console.log(response);
                 if (response.success) {
                     AsyncStorage.setItem('token', response.data.token);
                     AsyncStorage.setItem('username', username);
-                    AsyncStorage.setItem('userId', response.userId.toString());
+                    AsyncStorage.setItem('userId', response.id.toString());
                     this.token = response.data.token;
-                    this.userId = response.userId;
+                    this.userId = response.id;
+                    this.username = username;
                 }
                 return response;
             });
