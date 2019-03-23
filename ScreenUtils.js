@@ -1,6 +1,6 @@
 import {NavigationActions, StackActions} from "react-navigation";
 
-//destroys this screen after leaving so the user cant go back
+//resets the navigation stack
 class ScreenUtils {
     destroyScreen(screen, navigation) {
         const resetAction = StackActions.reset({

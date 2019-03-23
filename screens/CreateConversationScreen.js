@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, FlatList, StyleSheet, TextInput, View} from "react-native";
 import WebController from "../web/WebController";
-import ScreenUtils from "../ScreenUtils";
+import {NavigationActions, StackActions} from "react-navigation";
 
 type State = {
     conversationName: String;
@@ -10,10 +10,26 @@ type State = {
 
 export class CreateConversationScreen extends Component<Props, State> {
 
+
+    constructor(props: P, context: any) {
+        super(props, context);
+        this.state = {
+            userNamesList: [],
+            conversationName: ''
+        }
+    }
+
     _onCreateConversationClick() {
         WebController.postConversation(this.state.conversationName, this.state.userNamesList)
             .then(response => {
-                ScreenUtils.destroyScreen('ConversationScreen', this.props.navigation);
+                //removes this screen form the navigation stack
+                const resetAction = StackActions.reset({
+                    index: 0,
+                    actions: [
+                        NavigationActions.navigate({routeName: 'ConversationsListScreen'})],
+                    key: null
+                });
+                this.props.navigation.dispatch(resetAction);
                 this.props.navigation.navigate('ConversationScreen', {conversationId: response.conversationId});
             }).catch(console.log);
     }
@@ -36,7 +52,9 @@ export class CreateConversationScreen extends Component<Props, State> {
                 <TextInput style={styles.userNameInput}
                            onSubmitEditing={event => this._onUserNameInputSubmitEditing(event.nativeEvent.text)}
                 />
-                <FlatList/>
+                <FlatList
+                    data={this.state.userNamesList}
+                    keyExtractor={(item, index) => index.toString()}/>
                 <View style={styles.bottom}>
                     <Button style={styles.createConversationButton} title='CREATE CONVERSATION'
                             onPress={() => this._onCreateConversationClick()}/>
