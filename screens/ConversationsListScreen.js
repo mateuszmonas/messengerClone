@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, FlatList, View} from "react-native";
+import {Button, FlatList, StyleSheet, View} from "react-native";
 import {ListItem} from "react-native-elements"
 import WebController from "../web/WebController";
 
@@ -29,7 +29,7 @@ export class ConversationsListScreen extends Component<Props, State> {
     }
 
     _onCreateConversationClick() {
-
+        this.props.navigation.navigate('CreateConversationScreen');
     }
 
     constructor(props: P, context: any) {
@@ -58,11 +58,23 @@ export class ConversationsListScreen extends Component<Props, State> {
                         />}
                     keyExtractor={(item, index) => index.toString()}
                 />
-                <View style={styles.bottom}>
                     <Button style={styles.createConversationButton} title='CREATE CONVERSATION'
                             onPress={() => this._onCreateConversationClick()}/>
-                </View>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#48d2f0'
+    },
+    createConversationButton: {},
+    bottom: {
+        flex: 1,
+        justifyContent: 'flex-end',
+    }
+});

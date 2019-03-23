@@ -24,15 +24,22 @@ class WebController{
     }
 
     async postMessage(message: Message){
-        return fetch(MessageServerURL + '/postMessage',
+        return fetch(MessageServerURL + '/sendMessage',
             {
                 method: 'POST',
                 body: JSON.stringify(message)
             }).then(response => response.json());
     }
 
-    async postConversation() {
-
+    postConversation(conversationName: String, users: []) {
+        return fetch(MessageServerURL + `/createConversation`,
+            {
+                method: 'POST',
+                header: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({name: conversationName})
+            }).then(response => response.json())
     }
 
     getConversationsList() {
@@ -43,9 +50,9 @@ class WebController{
     }
 
     getMessages(conversationId: String) {
-        return fetch(MessageServerURL + '/getMessages',
+        return fetch(MessageServerURL + `/getConversationMessages/${conversationId}`,
             {
-                method: 'GET',
+                method: 'GET'
             }).then(response => response.json());
     }
 

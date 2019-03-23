@@ -13,6 +13,7 @@ import {createAppContainer, createStackNavigator} from 'react-navigation';
 import {ConversationsListScreen} from "./screens/ConversationsListScreen";
 import {SplashScreen} from "./screens/SplashScreen";
 import {RegisterScreen} from "./screens/RegisterScreen";
+import {CreateConversationScreen} from "./screens/CreateConversationScreen";
 
 export const MainNavigator = createStackNavigator({
     LoginScreen: {
@@ -27,10 +28,17 @@ export const MainNavigator = createStackNavigator({
             header: null
         }
     },
-    ConversationScreen: {screen: ConversationScreen,
+    CreateConversationScreen: {
+        screen: CreateConversationScreen,
         navigationOptions: {
             header: null
         }},
+    ConversationScreen: {
+        screen: ConversationScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
     ConversationsListScreen: {screen: ConversationsListScreen,
         navigationOptions: {
             header: null
