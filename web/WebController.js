@@ -12,12 +12,16 @@ class WebController{
     constructor() {
         this.ee = new EventEmitter();
         this.newMessageSocket = new WebSocket(MessageWebSocketURL + '/getMessages');
-        this.token = AsyncStorage.getItem('token');
-        this.userId = AsyncStorage.getItem('userId');
-        this.username = AsyncStorage.getItem('username');
+        this.getUserData();
         this.newMessageSocket.onmessage = (msg) => {
             this.ee.emit('newMessageEvent', msg.data);
         };
+    }
+
+    async getUserData() {
+        this.token = await AsyncStorage.getItem('token');
+        this.userId = await AsyncStorage.getItem('userId');
+        this.username = await AsyncStorage.getItem('username');
     }
 
     async subscribeToNewMessageEvent(fn: ListenerFn) {
@@ -32,7 +36,7 @@ class WebController{
             }).then(response => response.json());
     }
 
-    addUserToConversation(username: String, conversationId: number) {
+    async addUserToConversation(username: String, conversationId: number) {
         return fetch(MessageServerURL + `/addUserToConversation`,
             {
                 method: 'POST',
@@ -43,7 +47,7 @@ class WebController{
             }).then(response => response.json());
     }
 
-    postConversation(conversationName: String, users: []) {
+    async postConversation(conversationName: String, users: []) {
         return fetch(MessageServerURL + `/createConversation`,
             {
                 method: 'POST',
@@ -51,9 +55,8 @@ class WebController{
                     'Content-type': 'application/json'
                 },
                 body: JSON.stringify({name: conversationName})
-            }).then(response => {
-            response.json()
-        }).then(response => {
+            }).then(response => response.json())
+            .then(response => {
             this.addUserToConversation(this.username, response.id)
                 .catch(console.log);
             return response;
@@ -65,21 +68,21 @@ class WebController{
         });
     }
 
-    getConversationsList() {
+    async getConversationsList() {
         return fetch(MessageServerURL + `/getConversations/${this.userId}`,
             {
                 method: 'GET',
             }).then(response => response.json());
     }
 
-    getMessages(conversationId: String) {
+    async getMessages(conversationId: String) {
         return fetch(MessageServerURL + `/getConversationMessages/${conversationId}`,
             {
                 method: 'GET'
             }).then(response => response.json());
     }
 
-    registerRequest(username: String, password: String) {
+    async registerRequest(username: String, password: String) {
         return fetch(AuthenticationServerURL + '/register', {
             method: 'POST',
             headers: {
@@ -92,7 +95,7 @@ class WebController{
         }).then(response => response.json());
     }
 
-    loginRequest(username: String, password: String) {
+    async loginRequest(username: String, password: String) {
         return fetch(AuthenticationServerURL + '/login', {
             method: 'POST',
             headers: {

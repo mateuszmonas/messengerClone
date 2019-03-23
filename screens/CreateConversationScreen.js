@@ -30,7 +30,7 @@ export class CreateConversationScreen extends Component<Props, State> {
                     key: null
                 });
                 this.props.navigation.dispatch(resetAction);
-                this.props.navigation.navigate('ConversationScreen', {conversationId: response.conversationId});
+                this.props.navigation.navigate('ConversationScreen', {conversationId: response.id});
             }).catch(console.log);
     }
 
