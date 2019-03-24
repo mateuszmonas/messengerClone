@@ -51,7 +51,7 @@ export class ConversationsListScreen extends Component<Props, State> {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <FlatList
                     data={this.state.conversations}
                     renderItem={({item}) =>
@@ -64,8 +64,10 @@ export class ConversationsListScreen extends Component<Props, State> {
                         />}
                     keyExtractor={(item, index) => index.toString()}
                 />
+                <View style={styles.bottom}>
                     <Button style={styles.createConversationButton} title='CREATE CONVERSATION'
                             onPress={() => this._onCreateConversationClick()}/>
+                </View>
             </View>
         );
     }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Message} from "../model/Message";
-import {Alert, FlatList, Text, TextInput, View} from "react-native";
+import {Alert, FlatList, StyleSheet, Text, TextInput, View} from "react-native";
 import WebController from "../web/WebController";
 
 type State = {
@@ -61,15 +61,19 @@ export class ConversationScreen extends Component<Props, State> {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <FlatList
                     data={this.state.messages}
                     renderItem={({item}) => {
-                        if (item.authorId!=='1') {
-                            return(<View>
-                                <Text style={{textAlign: 'right', backgroundColor: '#00f', color: '#fff'}}>{item.text}</Text>
+                        if (item.authorId !== '1') {
+                            return (<View>
+                                <Text style={{
+                                    textAlign: 'right',
+                                    backgroundColor: '#00f',
+                                    color: '#fff'
+                                }}>{item.text}</Text>
                             </View>)
-                        }else{
+                        } else {
                             return (<View>
                                 <Text>{item.text}</Text>
                             </View>)
@@ -78,16 +82,39 @@ export class ConversationScreen extends Component<Props, State> {
                     }
                     keyExtractor={(item, index) => index.toString()}
                 />
-                <TextInput
-                    ref={input => { this.textInput = input }}
-                    onSubmitEditing={(event) => {
-                        const text = event.nativeEvent.text;
-                        this.textInput.clear();
-                        this._postMessage(text);
-                    }}
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                />
+                <View style={styles.bottom}>
+                    <TextInput
+                        ref={input => {
+                            this.textInput = input
+                        }}
+                        onSubmitEditing={(event) => {
+                            const text = event.nativeEvent.text;
+                            this.textInput.clear();
+                            this._postMessage(text);
+                        }}
+                        style={{
+                            height: 40,
+                            borderColor: 'gray',
+                            backgroundColor: '#fff',
+                            borderWidth: 1
+                        }}
+                    />
+                </View>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#48d2f0'
+    },
+    createConversationButton: {},
+    bottom: {
+        flex: 1,
+        justifyContent: 'flex-end',
+    }
+});

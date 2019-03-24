@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, Button, FlatList, StyleSheet, TextInput, View} from "react-native";
+import {Alert, Button, FlatList, StyleSheet, Text, TextInput, View} from "react-native";
 import WebController from "../web/WebController";
 import {NavigationActions, StackActions} from "react-navigation";
 
@@ -62,6 +62,16 @@ export class CreateConversationScreen extends Component<Props, State> {
                            onSubmitEditing={event => this._onUserNameInputSubmitEditing(event.nativeEvent.text)}
                 />
                 <FlatList
+                    renderItem={({item}) => {
+                        return (
+                            <View>
+                                <Text style={{
+                                    backgroundColor: '#00f',
+                                    color: '#fff'
+                                }}>{item}</Text>
+                            </View>
+                        )
+                    }}
                     data={this.state.userNamesList}
                     keyExtractor={(item, index) => index.toString()}/>
                 <View style={styles.bottom}>
