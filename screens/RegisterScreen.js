@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, StyleSheet, TextInput, View} from "react-native";
+import {Alert, Button, StyleSheet, TextInput, View} from "react-native";
 import WebController from "../web/WebController";
 import ScreenUtils from "../ScreenUtils";
 
@@ -33,7 +33,16 @@ export class RegisterScreen extends React.Component<Props, State> {
                                     ScreenUtils.destroyScreen('ConversationsListScreen', this.props.navigation);
                                     this.props.navigation.navigate('ConversationsListScreen');
                                 }
-                            }).catch(console.log)
+                            }).catch(e => {
+                            console.log(e);
+                            Alert.alert(
+                                'Error',
+                                'Can\'t register',
+                                [
+                                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                                ]
+                            );
+                        })
                     }
                 }).catch(console.log);
         }

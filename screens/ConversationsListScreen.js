@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, FlatList, StyleSheet, View} from "react-native";
+import {Alert, Button, FlatList, StyleSheet, View} from "react-native";
 import {ListItem} from "react-native-elements"
 import WebController from "../web/WebController";
 
@@ -13,8 +13,14 @@ export class ConversationsListScreen extends Component<Props, State> {
         WebController.getConversationsList().then(
             (response) => this._addConversationsToState(response))
             .catch((e) => {
-                console.log('getConversationsList');
                 console.log(e);
+                Alert.alert(
+                    'Error',
+                    'Can\'t load conversations',
+                    [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]
+                );
             })
 
     };

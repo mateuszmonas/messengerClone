@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Message} from "../model/Message";
-import {FlatList, Text, TextInput, View} from "react-native";
+import {Alert, FlatList, Text, TextInput, View} from "react-native";
 import WebController from "../web/WebController";
 
 type State = {
@@ -13,7 +13,18 @@ type State = {
 export class ConversationScreen extends Component<Props, State> {
 
     _getMessages() {
-        WebController.getMessages(this.state.conversationId).then(response => this._addMessagesToState(response));
+        WebController.getMessages(this.state.conversationId)
+            .then(response => this._addMessagesToState(response))
+            .catch(e => {
+                console.log(e);
+                Alert.alert(
+                    'Error',
+                    'Can\'t load messages',
+                    [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]
+                );
+            });
     }
 
     _postMessage(text: String){

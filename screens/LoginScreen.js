@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, StyleSheet, TextInput, View} from 'react-native';
+import {Alert, Button, StyleSheet, TextInput, View} from 'react-native';
 import WebController from "../web/WebController";
 import ScreenUtils from "../ScreenUtils";
 
@@ -26,7 +26,16 @@ export class LoginScreen extends Component<Props, State>{
                     this.props.navigation.navigate('ConversationsListScreen');
                 }
             })
-            .catch(console.log);
+            .catch(e => {
+                console.log(e);
+                Alert.alert(
+                    'Error',
+                    'Can\'t log in',
+                    [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]
+                );
+            });
     };
 
     _onRegisterClick(){

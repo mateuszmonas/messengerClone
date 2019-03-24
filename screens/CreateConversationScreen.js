@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, FlatList, StyleSheet, TextInput, View} from "react-native";
+import {Alert, Button, FlatList, StyleSheet, TextInput, View} from "react-native";
 import WebController from "../web/WebController";
 import {NavigationActions, StackActions} from "react-navigation";
 
@@ -31,7 +31,16 @@ export class CreateConversationScreen extends Component<Props, State> {
                 });
                 this.props.navigation.dispatch(resetAction);
                 this.props.navigation.navigate('ConversationScreen', {conversationId: response.id});
-            }).catch(console.log);
+            }).catch(e => {
+            console.log(e);
+            Alert.alert(
+                'Error',
+                'Can\'t load create conversation',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ]
+            );
+        });
     }
 
     _onUserNameInputSubmitEditing(text: String) {
