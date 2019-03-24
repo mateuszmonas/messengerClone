@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Message} from "../model/Message";
-import {Alert, FlatList, StyleSheet, Text, TextInput, View} from "react-native";
+import {Alert, AsyncStorage, FlatList, StyleSheet, Text, TextInput, View} from "react-native";
 import WebController from "../web/WebController";
 
 type State = {
     messages: [];
     conversationId: number;
+    userName: String;
 };
 
 
@@ -28,7 +28,7 @@ export class ConversationScreen extends Component<Props, State> {
     }
 
     _postMessage(text: String){
-        WebController.postMessage(new Message((+id + 1).toString(), '1', text)).done();
+        WebController.postMessage(text, this.state.conversationId).done();
     }
 
     _addMessagesToState(message){
@@ -47,9 +47,18 @@ export class ConversationScreen extends Component<Props, State> {
         };
     }
 
+    async getData() {
+        const username = await AsyncStorage.getItem('username');
+        console.log(username);
+        this.setState({
+            userName: username
+        })
+    }
+
     componentDidMount(){
         const { navigation } = this.props;
         const conversationId = navigation.getParam('conversationId', '0');
+        this.getData();
         this.setState({
             conversationId: conversationId,
         }, () => {
@@ -65,8 +74,13 @@ export class ConversationScreen extends Component<Props, State> {
                 <FlatList
                     data={this.state.messages}
                     renderItem={({item}) => {
-                        if (item.authorId !== '1') {
+                        if (item.userName !== this.state.userName) {
                             return (<View>
+                                <Text style={{
+                                    textAlign: 'right',
+                                    backgroundColor: '#287cff',
+                                    color: '#fff'
+                                }}>{item.userName}</Text>
                                 <Text style={{
                                     textAlign: 'right',
                                     backgroundColor: '#00f',
@@ -74,9 +88,17 @@ export class ConversationScreen extends Component<Props, State> {
                                 }}>{item.text}</Text>
                             </View>)
                         } else {
-                            return (<View>
-                                <Text>{item.text}</Text>
-                            </View>)
+                            return (
+                                <View>
+                                    <Text style={{
+                                        backgroundColor: '#ff2621',
+                                        color: '#fff'
+                                    }}>{item.userName}</Text>
+                                    <Text style={{
+                                        backgroundColor: '#ff2621',
+                                        color: '#fff'
+                                    }}>{item.text}</Text>
+                                </View>);
                         }
                     }
                     }

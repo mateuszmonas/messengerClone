@@ -1,4 +1,3 @@
-import {Message} from "../model/Message";
 import {EventEmitter} from "eventemitter3";
 import {AsyncStorage} from "react-native";
 import {AuthenticationServerURL, MessageServerURL, MessageWebSocketURL} from "../GlobalStrings";
@@ -28,11 +27,18 @@ class WebController{
         this.ee.on('newMessageEvent', fn);
     }
 
-    async postMessage(message: Message){
+    async postMessage(text: String, conversationId: number) {
         return fetch(MessageServerURL + '/sendMessage',
             {
                 method: 'POST',
-                body: JSON.stringify(message)
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    conversationId: conversationId,
+                    userName: this.username,
+                    text: text
+                })
             }).then(response => response.json());
     }
 
@@ -61,9 +67,10 @@ class WebController{
                 .catch(console.log);
             return response;
         }).then(response => {
-            for (let i = 0; i < users.length; i++) {
-                this.addUserToConversation(users[i], response.id);
-            }
+                for (let i = 0; i < users.length; i++) {
+                    this.addUserToConversation(users[i], response.id)
+                        .catch(console.log);
+                }
             return response;
         });
     }
