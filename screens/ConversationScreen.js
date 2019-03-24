@@ -47,9 +47,9 @@ export class ConversationScreen extends Component<Props, State> {
         };
     }
 
+    //get username from async storage, has to be done asynchronously
     async getData() {
         const username = await AsyncStorage.getItem('username');
-        console.log(username);
         this.setState({
             userName: username
         })
