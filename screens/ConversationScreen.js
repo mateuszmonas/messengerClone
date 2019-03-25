@@ -36,7 +36,7 @@ export class ConversationScreen extends Component<Props, State> {
     }
 
     _postMessage(text: String){
-        WebController.postMessage(text, this.state.conversationId).then(console.log)
+        WebController.postMessage(text, this.state.conversationId).then()
             .catch(console.log);
     }
 

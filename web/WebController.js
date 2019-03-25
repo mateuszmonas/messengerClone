@@ -10,7 +10,9 @@ class WebController{
 
     async connectToSocket() {
         console.log('connectToSocket');
-        const username = await AsyncStorage.getItem('username');
+        if (this.username === undefined) {
+            this.username = await AsyncStorage.getItem('username');
+        }
         this.ee = new EventEmitter();
         this.newMessageSocket = new WebSocket(MessageWebSocketURL);
         this.newMessageSocket.onerror = (msg) => {
@@ -18,7 +20,7 @@ class WebController{
         };
         this.newMessageSocket.onopen = (msg) => {
             console.log('onopen');
-            this.newMessageSocket.send(JSON.stringify({username: username}));
+            this.newMessageSocket.send(JSON.stringify({username: this.username}));
         };
         this.newMessageSocket.onmessage = (msg) => {
             console.log('got websocket msg');
@@ -26,7 +28,7 @@ class WebController{
         };
         this.newMessageSocket.onclose = (msg) => {
             console.log('onclose');
-            this.newMessageSocket.send(JSON.stringify({username: username}));
+            this.newMessageSocket.send(JSON.stringify({username: this.username}));
         };
     }
 
