@@ -8,13 +8,30 @@ export interface ListenerFn {
 
 class WebController{
 
-    constructor() {
+    async connectToSocket() {
+        console.log('connectToSocket');
+        const username = await AsyncStorage.getItem('username');
         this.ee = new EventEmitter();
-        this.newMessageSocket = new WebSocket(MessageWebSocketURL + '/getMessages');
-        this.getUserData();
-        this.newMessageSocket.onmessage = (msg) => {
-            this.ee.emit('newMessageEvent', msg.data);
+        this.newMessageSocket = new WebSocket(MessageWebSocketURL);
+        this.newMessageSocket.onerror = (msg) => {
+            console.log(msg);
         };
+        this.newMessageSocket.onopen = (msg) => {
+            console.log('onopen');
+            this.newMessageSocket.send(JSON.stringify({username: username}));
+        };
+        this.newMessageSocket.onmessage = (msg) => {
+            console.log('got websocket msg');
+            this.ee.emit('newMessageEvent');
+        };
+        this.newMessageSocket.onclose = (msg) => {
+            console.log('onclose');
+            this.newMessageSocket.send(JSON.stringify({username: username}));
+        };
+    }
+
+    constructor() {
+        this.getUserData();
     }
 
     async getUserData() {
@@ -42,18 +59,19 @@ class WebController{
             }).then(response => response.json());
     }
 
-    async addUserToConversation(username: String, conversationId: number) {
+    async addUserToConversation(username: [], conversationId: number) {
         return fetch(MessageServerURL + `/addUserToConversation`,
             {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json'
                 },
-                body: JSON.stringify({conversationId: conversationId, userLogin: username})
+                body: JSON.stringify({conversationId: conversationId, users: username})
             }).then(response => response.json());
     }
 
     async postConversation(conversationName: String, users: []) {
+        users.concat(this.username);
         return fetch(MessageServerURL + `/createConversation`,
             {
                 method: 'POST',
@@ -63,14 +81,7 @@ class WebController{
                 body: JSON.stringify({name: conversationName})
             }).then(response => response.json())
             .then(response => {
-            this.addUserToConversation(this.username, response.id)
-                .catch(console.log);
-            return response;
-        }).then(response => {
-                for (let i = 0; i < users.length; i++) {
-                    this.addUserToConversation(users[i], response.id)
-                        .catch(console.log);
-                }
+                this.addUserToConversation(users, response.id).done();
             return response;
         });
     }

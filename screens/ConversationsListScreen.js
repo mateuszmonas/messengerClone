@@ -46,6 +46,7 @@ export class ConversationsListScreen extends Component<Props, State> {
     }
 
     componentDidMount(){
+        WebController.connectToSocket();
         this._getConversations();
     }
 

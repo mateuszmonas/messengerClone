@@ -27,24 +27,23 @@ export class ConversationScreen extends Component<Props, State> {
             });
     }
 
-    _postMessage(text: String){
-        WebController.postMessage(text, this.state.conversationId).done();
-    }
-
-    _addMessagesToState(message){
-        this.setState(state => {
-            const messages = state.messages.concat(message);
-            return {
-                messages
-            };
-        });
-    }
-
     constructor(props: P, context: any) {
+
         super(props, context);
         this.state = {
             messages: []
         };
+    }
+
+    _postMessage(text: String){
+        WebController.postMessage(text, this.state.conversationId).then(console.log)
+            .catch(console.log);
+    }
+
+    _addMessagesToState(message){
+        this.setState({
+            messages: message
+        });
     }
 
     //get username from async storage, has to be done asynchronously
@@ -65,7 +64,11 @@ export class ConversationScreen extends Component<Props, State> {
             this._getMessages(this.state.conversationId);
         });
 
-        WebController.subscribeToNewMessageEvent((msg: String) => {this._addMessagesToState(JSON.parse(msg))}).done();
+        WebController.subscribeToNewMessageEvent(() => {
+            // this._addMessagesToState(JSON.parse(msg));
+            console.log('got websocket msg');
+            this._getMessages();
+        }).done();
     }
 
     render() {
